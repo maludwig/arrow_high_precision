@@ -1,12 +1,10 @@
 sudo: false
 language: python
 os:
-  - windows
   - osx
   - linux
 python:
-  - 3.7
-  - nightly
+  - 3.7-dev
 install:
   - pip install -r requirements.txt
 script: python generating_high_precision_arrows.py
