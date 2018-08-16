@@ -7,6 +7,8 @@ import json
 
 last_arrow = arrow.utcnow()
 
+# Use time.clock on Python < 3.3
+high_res_timestamp_function = getattr(time, "perf_counter", time.clock)
 
 def shifted_arrow_method():
     global last_arrow
@@ -26,20 +28,20 @@ def adding_microseconds_method():
     return arrow.get(last_unix_timestamp)
 
 
-initial_perf = time.perf_counter()
+initial_perf = high_res_timestamp_function()
 initial_time = time.time()
 perf_time_offset = initial_time - initial_perf
 
 
 def perf_counter_method():
     global perf_time_offset
-    timestamp_in_secs = time.perf_counter() + perf_time_offset
+    timestamp_in_secs = high_res_timestamp_function() + perf_time_offset
     return arrow.Arrow.utcfromtimestamp(timestamp_in_secs)
 
 
 def perf_counter_datetime_method():
     global perf_time_offset
-    timestamp_in_secs = time.perf_counter() + perf_time_offset
+    timestamp_in_secs = high_res_timestamp_function() + perf_time_offset
     dt = datetime.datetime.utcfromtimestamp(timestamp_in_secs)
     return arrow.Arrow.fromdatetime(dt)
 
@@ -105,9 +107,9 @@ def test_everything():
 
     for (fn_type, fn_name, fn) in TIMESTAMP_FUNCTIONS:
         print(fn_name + "()")
-        start_perf = time.perf_counter()
+        start_perf = high_res_timestamp_function()
         samples = sampler(fn, ITERATIONS)
-        end_perf = time.perf_counter()
+        end_perf = high_res_timestamp_function()
         time_in_ms = (end_perf - start_perf) * 1000
         print("Speed: {} per ms".format(ITERATIONS / time_in_ms))
         if fn_type == "s":
