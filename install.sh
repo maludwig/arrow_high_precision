@@ -42,4 +42,5 @@ find_best_python_version () {
 if PYENV_VERSION=`find_best_python_version "$PYTHON_VERSION"`; then
   pyenv install "$PYENV_VERSION"
   pyenv local "$PYENV_VERSION"
+  pip install -r requirements.txt
 fi
