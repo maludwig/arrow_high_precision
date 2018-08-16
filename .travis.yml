@@ -12,20 +12,19 @@ matrix:
 #          env: TOXENV=py33
         - os: osx
           language: generic
-          env: TOXENV=py32
+          env: PYTHON_VERSION=2.6
         - os: osx
           language: generic
-          env: TOXENV=py33
-#python:
-#  - 2.6
-#  - 2.7
-#  - 3.3
-#  - 3.4
-#  - 3.5
-#  - 3.6
-#  - 3.7-dev
+          env: PYTHON_VERSION=2.7
+        - os: osx
+          language: generic
+          env: PYTHON_VERSION=3.3
+        - os: osx
+          language: generic
+          env: PYTHON_VERSION=3.7
+        - os: osx
+          language: generic
+          env: PYTHON_VERSION=3.8
 install:
-#  - pip install -r requirements.txt
-  - chmod 755 ./install.sh
   - ./install.sh
 script: python compat_generating_high_precision_arrows.py
