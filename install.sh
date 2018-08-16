@@ -25,4 +25,4 @@ else
     pyenv local "$PYENV_VERSION"
   fi
 fi
-pip install arrow
+pip install -r requirements.txt
