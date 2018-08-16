@@ -1,32 +1,37 @@
 sudo: false
 language: python
 matrix:
-    include:
-#        - os: linux
-#          sudo: required
-#          python: 3.2
-#          env: TOXENV=py32
-#        - os: linux
-#          sudo: required
-#          python: 3.3
-#          env: TOXENV=py33
-        - os: osx
-          language: generic
-          env: PYTHON_VERSION=2.6
-        - os: osx
-          language: generic
-          env: PYTHON_VERSION=2.7
-        - os: osx
-          language: generic
-          env: PYTHON_VERSION=3.3
-        - os: osx
-          language: generic
-          env: PYTHON_VERSION=3.7
-        - os: osx
-          language: generic
-          env: PYTHON_VERSION=3.8
+  include:
+    - os: linux
+      python: 2.6
+    - os: linux
+      python: 2.6
+    - os: linux
+      python: 3.3
+    - os: linux
+      python: 3.4
+    - os: linux
+      python: 3.5
+    - os: linux
+      python: 3.6
+    - os: linux
+      python: 3.7
+    - os: osx
+      language: generic
+      env: PYTHON_VERSION=2.6
+    - os: osx
+      language: generic
+      env: PYTHON_VERSION=2.7
+    - os: osx
+      language: generic
+      env: PYTHON_VERSION=3.3
+    - os: osx
+      language: generic
+      env: PYTHON_VERSION=3.7
+    - os: osx
+      language: generic
+      env: PYTHON_VERSION=3.8
 install:
-#  - pip install -r requirements.txt
   - chmod 755 ./install.sh
   - ./install.sh
 script: python compat_generating_high_precision_arrows.py

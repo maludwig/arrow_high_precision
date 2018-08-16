@@ -1,27 +1,5 @@
 #!/bin/bash
 
-function printandrun {
-  echo "------ $@ ------"
-  "$@"
-  echo "--------------------------"
-}
-#
-#printandrun pwd
-#printandrun which brew
-#printandrun which pyenv
-#printandrun which python
-#printandrun which python2
-#printandrun which python3
-#
-#printandrun pyenv versions
-#printandrun pyenv install --list
-#printandrun brew ls
-#printandrun set
-#printandrun pip install -r requirements.txt
-#printandrun echo "$TOXENV"
-
-# pyenv install --list | grep "$PYTHON_VERSION"
-
 find_best_python_version () {
   PYTHON_VERSION="$1"
   ALL_SUBVERSIONS=`pyenv install --list | grep -E "^ +$PYTHON_VERSION.*?$" | tr -d ' '` 
@@ -39,8 +17,12 @@ find_best_python_version () {
   fi
 }
 
-if PYENV_VERSION=`find_best_python_version "$PYTHON_VERSION"`; then
-  pyenv install "$PYENV_VERSION"
-  pyenv local "$PYENV_VERSION"
-  pip install -r requirements.txt
+if [[ -z $PYTHON_VERSION ]]; then
+  echo "Skipping python install"
+else
+  if PYENV_VERSION=`find_best_python_version "$PYTHON_VERSION"`; then
+    pyenv install "$PYENV_VERSION"
+    pyenv local "$PYENV_VERSION"
+  fi
 fi
+pip install -r requirements.txt
