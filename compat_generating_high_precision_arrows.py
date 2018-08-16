@@ -59,26 +59,6 @@ def sampler(fn, count):
     return different_samples
 
 
-def s_sample_summary(samples):
-    avg = avg_difference(samples)
-    print("{}ms granularity".format(avg * 1000))
-    print("{} samples".format(len(samples)))
-
-
-def dt_sample_summary(samples):
-    float_samples = [datetime.datetime.timestamp(x) for x in samples]
-    avg = avg_difference(float_samples)
-    print("{}ms granularity".format(avg * 1000))
-    print("{} samples".format(len(samples)))
-
-
-def ar_sample_summary(samples):
-    float_samples = [x.float_timestamp for x in samples]
-    avg = avg_difference(float_samples)
-    print("{}ms granularity".format(avg * 1000))
-    print("{} samples".format(len(samples)))
-
-
 def avg_difference(samples):
     last = samples[0]
     total = 0
@@ -106,12 +86,10 @@ def test_everything():
     results = []
 
     for (fn_type, fn_name, fn) in TIMESTAMP_FUNCTIONS:
-        print(fn_name + "()")
         start_perf = high_res_timestamp_function()
         samples = sampler(fn, ITERATIONS)
         end_perf = high_res_timestamp_function()
         time_in_ms = (end_perf - start_perf) * 1000
-        print("Speed: {} per ms".format(ITERATIONS / time_in_ms))
         if fn_type == "s":
             granularity = avg_difference(samples) * 1000
         elif fn_type == "ns":
